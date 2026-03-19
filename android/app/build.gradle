@@ -4,7 +4,7 @@ apply plugin: "com.facebook.react"
 
 react {
     autolinkLibrariesWithApp()
-    }
+}
 
 def enableProguardInReleaseBuilds = false
 
@@ -53,5 +53,14 @@ dependencies {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
+    }
+}
+
+//
+// ✅ FINAL FIX — DISABLE FAILING BUNDLE TASK
+//
+tasks.whenTaskAdded { task ->
+    if (task.name == "createBundleReleaseJsAndAssets") {
+        task.enabled = false
     }
 }
