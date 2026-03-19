@@ -13,7 +13,21 @@ workflows:
       - name: Build Android APK
         script: |
           cd android
+
+          # ✅ FIX 1: Create debug keystore (required in CI)
+          keytool -genkey -v -keystore app/debug.keystore \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+
+          # ✅ FIX 2: Grant permission to gradlew
           chmod +x gradlew
+
+          # ✅ BUILD APK
           ./gradlew assembleDebug
 
     artifacts:
