@@ -1,6 +1,6 @@
 workflows:
   react-native-android:
-    name: React Native Android Build
+    name: React Native Android Release Build
     max_build_duration: 60
     environment:
       node: 18
@@ -10,11 +10,11 @@ workflows:
         script: |
           npm install
 
-      - name: Build Android APK
+      - name: Build Android RELEASE APK
         script: |
           cd android
 
-          # ✅ FIX 1: Create debug keystore (required in CI)
+          # ✅ Create keystore (used for signing release build)
           keytool -genkey -v -keystore app/debug.keystore \
             -storepass android \
             -alias androiddebugkey \
@@ -24,11 +24,11 @@ workflows:
             -validity 10000 \
             -dname "CN=Android Debug,O=Android,C=US"
 
-          # ✅ FIX 2: Grant permission to gradlew
+          # ✅ Fix permission issue
           chmod +x gradlew
 
-          # ✅ BUILD APK
-          ./gradlew assembleDebug
+          # ✅ BUILD RELEASE APK (IMPORTANT CHANGE)
+          ./gradlew assembleRelease
 
     artifacts:
       - android/app/build/outputs/**/*.apk
