@@ -14,7 +14,7 @@ workflows:
         script: |
           cd android
 
-          # ✅ Create keystore (used for signing release build)
+          # ✅ Create keystore (required for CI)
           keytool -genkey -v -keystore app/debug.keystore \
             -storepass android \
             -alias androiddebugkey \
@@ -24,10 +24,24 @@ workflows:
             -validity 10000 \
             -dname "CN=Android Debug,O=Android,C=US"
 
-          # ✅ Fix permission issue
+          # ✅ Fix gradlew permission
           chmod +x gradlew
 
-          # ✅ BUILD RELEASE APK (IMPORTANT CHANGE)
+          cd ..
+
+          # ✅ CRITICAL FIX: Manually bundle React Native JS
+          mkdir -p android/app/src/main/assets
+
+          npx react-native bundle \
+            --platform android \
+            --dev false \
+            --entry-file index.js \
+            --bundle-output android/app/src/main/assets/index.android.bundle \
+            --assets-dest android/app/src/main/res/
+
+          cd android
+
+          # ✅ Build RELEASE APK
           ./gradlew assembleRelease
 
     artifacts:
