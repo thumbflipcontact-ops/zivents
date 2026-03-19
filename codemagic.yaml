@@ -13,6 +13,7 @@ workflows:
       - name: Build Android APK
         script: |
           cd android
+          chmod +x gradlew
           ./gradlew assembleDebug
 
     artifacts:
@@ -45,4 +46,5 @@ workflows:
                      -archivePath $CM_BUILD_DIR/build/ios/archive.xcarchive archive
 
     artifacts:
+      - android/app/build/outputs/**/*.apk
       - build/ios/archive.xcarchive
