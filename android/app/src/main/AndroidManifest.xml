@@ -11,6 +11,12 @@
       android:theme="@style/AppTheme"
       android:usesCleartextTraffic="${usesCleartextTraffic}"
       android:supportsRtl="true">
+
+      <!-- ADD THIS EXACT BLOCK HERE -->
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBGMFp74WXviH9SKudHsx1t4nmsUExxRfE"/>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -23,5 +29,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+
     </application>
 </manifest>
