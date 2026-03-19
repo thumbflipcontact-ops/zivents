@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build
+android/build/
+android/app/build/
+ios/build/
+
+# logs
+npm-debug.log
+yarn-error.log
+
+# macOS
+.DS_Store
+
+# env
+.env
+
+# gradle
+.gradle/
+
+# local files
+*.keystore
+*.jks
+
+# metro cache
+.expo/
+.cache/
