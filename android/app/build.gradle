@@ -2,16 +2,9 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
-/**
- * React Native config
- */
-project.ext.react = [
-    enableHermes: true,
-    bundleInRelease: false   // ✅ CRITICAL FIX (prevents build crash)
-]
-
 react {
     autolinkLibrariesWithApp()
+    bundleInRelease = false
 }
 
 def enableProguardInReleaseBuilds = false
