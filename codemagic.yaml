@@ -2,6 +2,7 @@ workflows:
   react-native-android:
     name: React Native Android Release Build
     max_build_duration: 60
+
     environment:
       node: 18
 
@@ -14,24 +15,15 @@ workflows:
         script: |
           cd android
 
-          # ✅ Create keystore (required for CI)
-          keytool -genkey -v -keystore app/debug.keystore \
-            -storepass android \
-            -alias androiddebugkey \
-            -keypass android \
-            -keyalg RSA \
-            -keysize 2048 \
-            -validity 10000 \
-            -dname "CN=Android Debug,O=Android,C=US"
-
-          # ✅ Fix gradlew permission
+          # Fix permission
           chmod +x gradlew
 
           cd ..
 
-          # ✅ CRITICAL FIX: Manually bundle React Native JS
+          # ✅ Ensure assets folder exists
           mkdir -p android/app/src/main/assets
 
+          # ✅ Manual bundle (FINAL FIX for RN 0.82+)
           npx react-native bundle \
             --platform android \
             --dev false \
@@ -41,7 +33,7 @@ workflows:
 
           cd android
 
-          # ✅ Build RELEASE APK
+          # ✅ Build release APK
           ./gradlew assembleRelease
 
     artifacts:
@@ -50,6 +42,7 @@ workflows:
   react-native-ios:
     name: React Native iOS Build
     max_build_duration: 60
+
     environment:
       node: 18
       xcode: latest
