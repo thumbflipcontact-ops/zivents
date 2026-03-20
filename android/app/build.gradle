@@ -4,9 +4,6 @@ apply plugin: "com.facebook.react"
 
 react {
     autolinkLibrariesWithApp()
-
-    // ✅ REQUIRED for release APK to work
-    bundleInRelease = true
 }
 
 def enableProguardInReleaseBuilds = false
