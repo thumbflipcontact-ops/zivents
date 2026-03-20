@@ -55,3 +55,12 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+//
+// ✅ FINAL FIX — prevent duplicate bundling crash
+//
+gradle.projectsEvaluated {
+    tasks.matching { it.name == "createBundleReleaseJsAndAssets" }.all {
+        enabled = false
+    }
+}
