@@ -6,25 +6,22 @@ import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
 import com.facebook.react.ReactNativeApplicationEntryPoint.loadReactNative
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
-import com.facebook.soloader.SoLoader
+import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint
 
 class MainApplication : Application(), ReactApplication {
 
   override val reactHost: ReactHost by lazy {
     getDefaultReactHost(
       context = applicationContext,
-      packageList =
-        PackageList(this).packages.apply {
-          // add manual packages here if needed
-        },
+      packageList = PackageList(this).packages,
     )
   }
 
   override fun onCreate() {
     super.onCreate()
 
-    // ✅ REQUIRED for native modules stability (maps, etc.)
-    SoLoader.init(this, false)
+    // ✅ IMPORTANT FIX
+    DefaultNewArchitectureEntryPoint.load()
 
     loadReactNative(this)
   }
